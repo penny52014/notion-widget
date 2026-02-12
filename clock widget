@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Malaysia Time Widget</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background: transparent; /* Notion embed 透明 */
+  }
+
+  #clock {
+    width: 200px;
+    height: 200px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    /* 背景图片，等下你可以自己换成你的图片URL */
+    background-image: url('https://i.pinimg.com/1200x/d1/11/ba/d111ba73542116f35f268de3cb136c07.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    /* 文字颜色调成白色或适合你背景的颜色 */
+    color: #fff;
+  }
+
+  #weekday {
+    font-size: 40px; /* 星期字体大 */
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* 字体阴影增强可读性 */
+  }
+
+  #time {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  }
+
+  #date {
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  }
+</style>
+</head>
+<body>
+
+<div id="clock">
+  <div id="weekday">Mon</div>
+  <div id="time">--:--</div>
+  <div id="date">-- -- ----</div>
+</div>
+
+<script>
+function updateClock() {
+  const now = new Date();
+  
+  // Malaysia is UTC+8
+  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const myTime = new Date(utc + (8 * 60 * 60 * 1000));
+
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const weekday = weekdays[myTime.getDay()];
+
+  const hours = String(myTime.getHours()).padStart(2, '0');
+  const minutes = String(myTime.getMinutes()).padStart(2, '0');
+
+  const day = String(myTime.getDate()).padStart(2, '0');
+  const month = String(myTime.getMonth() + 1).padStart(2, '0');
+  const year = myTime.getFullYear();
+
+  document.getElementById('weekday').textContent = weekday;
+  document.getElementById('time').textContent = `${hours}:${minutes}`;
+  document.getElementById('date').textContent = `${day}-${month}-${year}`;
+}
+
+// 每秒更新分钟（不显示秒）
+setInterval(updateClock, 1000);
+updateClock(); // 页面加载时立即显示
+</script>
+
+</body>
+</html>
